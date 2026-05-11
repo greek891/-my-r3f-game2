@@ -1,14 +1,13 @@
-/* Reset margins and padding for the whole page */
 * {
   box-sizing: border-box;
 }
 
-/* Stretch the core containers to fill the viewport */
+
 html, body, #root {
   width: 100vw;     
   height: 100dvh;    
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Prevents ugly scrollbars from appearing */
-  background-color: #002991; 
+  overflow: hidden;
+  background-color: #00ff0d; 
 }
