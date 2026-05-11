@@ -2,7 +2,7 @@ html, body, #root {
   margin: 0;
   padding: 0;
   width: 100vw; /* 100% of the viewport width */
-  height: 100vh; /* 100% of the viewport height */
+  height: 100dvh; /* 100% of the viewport height */
   overflow: hidden; /* Prevents scrollbars from appearing */
   background-color: #87CEEB; /* A nice sky blue background to help visibility */
 }
@@ -142,3 +142,41 @@ html, body, #root {
   padding: 0.4em;
   padding-left: 0.8em;
 }
+
+/* ==========================================
+   📱 MOBILE RESPONSIVENESS
+   ========================================== */
+   @media (max-width: 768px) {
+   
+    .psx-dialogue-wrapper {
+      width: 90%;
+      left: 5%;
+      bottom: 2%;
+      height: auto; 
+      min-height: 140px;
+      padding: 10px 15px;
+      font-size: 20px; 
+    }
+  
+    .psx-speaker-name {
+      font-size: 24px;
+    }
+  
+    /* CV*/
+    .psx-stage {
+      width: 90vw; 
+      height: 60vh; 
+    }
+  
+    /* action buttons */
+    .psx-attachment-btn {
+      font-size: 12px;
+      padding: 8px 12px;
+    }
+    
+  
+    button {
+      width: 120px;
+      font-size: 1.1em;
+    }
+  }

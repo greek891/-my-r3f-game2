@@ -1,20 +1,19 @@
 .case-container {
-    perspective: 1000px;
-    padding: 50px;
-    display: flex;
-    justify-content: center;
-  }
+  perspective: 1000px;
+  padding: 5vw; 
+  display: flex;
+  justify-content: center;
+}
   
-  .jewel-case {
-    position: relative;
-    width: 400px; 
-    transform-style: preserve-3d;
-    /* Smoother transition for the 3D pop */
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
-    border-radius: 4px;
-    /* Added an inner box-shadow to simulate the thick plastic edge */
-    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.15); 
-  }
+.jewel-case {
+  position: relative;
+  width: 85vw; 
+  max-width: 400px;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.3s ease;
+  border-radius: 4px;
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.15); 
+}
   
   .jewel-case:hover {
     /* Deeper shadow on hover to exaggerate depth */

@@ -122,8 +122,18 @@ export default function StaticOverlay({ isActive = false, duration = 3000, onCom
       
       
       <div className="" style={{ position: 'absolute', width: '100%', height: '100%', top: 0, left: 0 }}>
-        <p className="overlay-text" style={{ fontSize: '150px', left: '7%', top: '79%', transform: 'translate(-7%, -79%)', animation: 'text-jitter 1.5s infinite linear', }}>PORTFOLIO</p>
-        <p className="overlay-text" style={{ fontSize: '150spx', left: '87%', top: '6%', transform: 'translate(-87%, -6%)', animation: 'text-jitter 1.5s infinite linear', }}>8</p>
+        <p className="overlay-text" style={{ 
+            fontSize: 'clamp(40px, 15vw, 150px)', 
+            left: '7%', top: '79%', 
+            transform: 'translate(-7%, -79%)', 
+            animation: 'text-jitter 1.5s infinite linear', 
+        }}>PORTFOLIO</p>
+        <p className="overlay-text" style={{ 
+            fontSize: 'clamp(40px, 15vw, 150px)', 
+            left: '87%', top: '6%', 
+            transform: 'translate(-87%, -6%)', 
+            animation: 'text-jitter 1.5s infinite linear', 
+        }}>8</p>
       </div>
     </div>
   );

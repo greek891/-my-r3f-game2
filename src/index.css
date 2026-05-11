@@ -5,10 +5,10 @@
 
 /* Stretch the core containers to fill the viewport */
 html, body, #root {
-  width: 100vw;     /* 100% of the browser width */
-  height: 100vh;    /* 100% of the browser height */
+  width: 100vw;     
+  height: 100dvh;    
   margin: 0;
   padding: 0;
   overflow: hidden; /* Prevents ugly scrollbars from appearing */
-  background-color: #87CEEB; /* A nice sky blue background */
+  background-color: #001a5b; 
 }

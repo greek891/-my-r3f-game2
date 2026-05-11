@@ -248,22 +248,39 @@ export default function App() {
         </div>
       )}
 
-      {gameState !== 'waiting' && (
+     {/* 2. THE INTRO VIDEO (Predictive Crossfade) */}
+     {gameState !== 'waiting' && (
         <video
           ref={videoRef}
-          src="/introVideo5.mp4"
           playsInline
-          muted={isMuted} // 👈 NEW: Ties the video volume to the toggle state
+          disablePictureInPicture
+          controls={false}
+          muted={isMuted} 
           onTimeUpdate={handleTimeUpdate} 
           style={{
             position: 'absolute',
-            top: 0, left: 0, width: '100vw', height: '100vh',
-            objectFit: 'cover', zIndex: 10, backgroundColor: 'black',
+            top: 0, 
+            left: 0, 
+            width: '100vw', 
+            height: '100dvh', 
+            minHeight: '100%',
+            objectFit: 'cover', 
+            objectPosition: 'center center',
+            zIndex: 10, 
+            backgroundColor: 'black',
             opacity: gameState === 'game' ? 0 : 1,
             transition: 'opacity 0.2s ease-out',
             pointerEvents: gameState === 'game' ? 'none' : 'auto'
           }}
-        />
+        >
+          {/* 👇 NEW: The browser reads top-to-bottom. 
+               If the screen is under 768px wide, it loads the mobile video. */}
+          <source src="/introVideoMobile2.mp4" media="(max-width: 768px)" type="video/mp4" />
+          
+          {/* 👇 If the screen is wider than 768px, it skips the first one and loads this desktop video. */}
+          <source src="/introVideo5.mp4" type="video/mp4" />
+          
+        </video>
       )}
 
    
