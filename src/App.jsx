@@ -153,8 +153,8 @@ function IntroCameraPan({ isPlaying, onComplete, config }) {
 }
 
 export default function App() {
-  //const [gameState, setGameState] = useState('waiting');
-  const [gameState, setGameState] = useState('game');
+  const [gameState, setGameState] = useState('waiting');
+  //const [gameState, setGameState] = useState('game');
   const [dialogue, setDialogue] = useState(null);
   const videoRef = useRef();
   const { progress } = useProgress();
