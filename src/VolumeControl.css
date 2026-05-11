@@ -1,0 +1,71 @@
+/*------ Settings ------*/
+.psx-volume-container {
+    --color: #515151;
+    --size: 24px; /* The size of the actual SVG inside the button */
+  
+    /* The outer PSX Button styling & positioning */
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    width: 48px;
+    height: 48px;
+    background: rgba(0, 0, 0, 0.5);
+    border-radius: 4px;
+    transition: all 0.2s ease;
+  
+    /* Uiverse layout rules */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: var(--size);
+    user-select: none;
+    fill: var(--color);
+  }
+  
+  /* Retro hover effect */
+  .psx-volume-container:hover {
+    fill: rgb(255, 255, 255);
+  }
+  
+  .psx-volume-container .mute {
+    position: absolute;
+    animation: keyframes-fill .5s;
+  }
+  
+  .psx-volume-container .voice {
+    position: absolute;
+    display: none;
+    animation: keyframes-fill .5s;
+  }
+  
+  /* ------ On check event ------ */
+  /* When the hidden input is checked (isMuted is false), show the voice! */
+  .psx-volume-container input:checked ~ .mute {
+    display: none;
+  }
+  
+  .psx-volume-container input:checked ~ .voice {
+    display: block;
+  }
+  
+  /* ------ Hide the default checkbox ------ */
+  .psx-volume-container input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+  }
+  
+  /* ------ The Uiverse Pop Animation ------ */
+  @keyframes keyframes-fill {
+    0% {
+      transform: rotate(0deg) scale(0);
+      opacity: 0;
+    }
+    50% {
+      transform: rotate(-10deg) scale(1.2);
+    }
+  }
