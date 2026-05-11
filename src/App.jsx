@@ -1,5 +1,5 @@
 import { useState, useRef, Suspense, useMemo, useEffect, useCallback } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import { KeyboardControls, Environment, PerspectiveCamera, useProgress, CameraControls } from '@react-three/drei';
 import { Physics } from '@react-three/rapier';
 import { useControls, folder, Leva } from 'leva';
@@ -16,16 +16,43 @@ import { VolumeControl } from './VolumeControl';
 import './App.css';
 
 
-const CAMERA_CONFIG = {
+// ==========================================
+// 🎥 CINEMATIC CAMERA SCRIPTS 
+// ==========================================
+const DESKTOP_CAMERA = {
   posA: [-20, 400, 40],     
   targetA: [-50, 19, -50], 
+  fovA: 100,          
+
   posB: [-15, 17, 75],
   targetB: [0, 0, -50], 
-  durationToB: 1.1,        
+  durationToB: 2,        
+  fovB: 50,          
+
   posC: [0, 2, 70],
   targetC: [0, -1, 10], 
-  durationToC: 0.5,        
-  fov: 18.5,              
+  durationToC: 2,        
+  fovC: 18.5,        
+  
+  near: 1,            
+  far: 500,            
+};
+
+const MOBILE_CAMERA = {
+  posA: [-20, 500, 50],     
+  targetA: [-50, 19, -50], 
+  fovA: 260,           
+
+  posB: [-15, 50, 75],
+  targetB: [0, 0, -50], 
+  durationToB: 5.9,        
+  fovB: 190,          
+  
+  posC: [0, 2, 70],
+  targetC: [0, -1, 10], 
+  durationToC: 1.5,       
+  fovC: 17.5,         
+  
   near: 1,            
   far: 500,            
 };
@@ -52,33 +79,58 @@ const KEY_BINDINGS = [
 const sceneRevealSound = new Audio('/testAudio5.mp3'); 
 sceneRevealSound.volume = 1;
 
-
-function IntroCameraPan({ isPlaying, onComplete }) {
+// ==========================================
+// 🎬 CINEMATIC CAMERA RIG (Multi-Step & Dynamic FOV)
+// ==========================================
+function IntroCameraPan({ isPlaying, onComplete, config }) {
   const controlsRef = useRef();
+  const { camera } = useThree(); 
+  const targetFov = useRef(config.fovA);
+
+ 
+  useFrame((state, delta) => {
+ 
+    if (Math.abs(camera.fov - targetFov.current) > 0.1) {
+      camera.fov = THREE.MathUtils.damp(camera.fov, targetFov.current, 3, delta);
+      camera.updateProjectionMatrix(); // Tell Three.js the lens changed
+    }
+  });
 
   useEffect(() => {
     if (!controlsRef.current) return;
 
     const runCameraScript = async () => {
+    
+      targetFov.current = config.fovA;
+      camera.fov = config.fovA;
+      camera.updateProjectionMatrix();
+      
       await controlsRef.current.setLookAt(
-        ...CAMERA_CONFIG.posA, 
-        ...CAMERA_CONFIG.targetA, 
+        ...config.posA, 
+        ...config.targetA, 
         false 
       );
 
       if (!isPlaying) return; 
 
-      controlsRef.current.smoothTime = CAMERA_CONFIG.durationToB;
-      await controlsRef.current.setLookAt(
-        ...CAMERA_CONFIG.posB, 
-        ...CAMERA_CONFIG.targetB, 
+      targetFov.current = config.fovB;
+      
+      controlsRef.current.smoothTime = config.durationToB;
+      controlsRef.current.setLookAt(
+        ...config.posB, 
+        ...config.targetB, 
         true 
       );
 
-      controlsRef.current.smoothTime = CAMERA_CONFIG.durationToC;
+
+      await new Promise(resolve => setTimeout(resolve, 1200));
+
+      targetFov.current = config.fovC;
+      
+      controlsRef.current.smoothTime = config.durationToC;
       await controlsRef.current.setLookAt(
-        ...CAMERA_CONFIG.posC, 
-        ...CAMERA_CONFIG.targetC, 
+        ...config.posC, 
+        ...config.targetC, 
         true 
       );
       
@@ -88,7 +140,7 @@ function IntroCameraPan({ isPlaying, onComplete }) {
     };
 
     runCameraScript();
-  }, [isPlaying, onComplete]);
+  }, [isPlaying, onComplete, config, camera]);
 
   return (
     <CameraControls 
@@ -101,15 +153,29 @@ function IntroCameraPan({ isPlaying, onComplete }) {
 }
 
 export default function App() {
-  const [gameState, setGameState] = useState('waiting');
+  //const [gameState, setGameState] = useState('waiting');
+  const [gameState, setGameState] = useState('game');
   const [dialogue, setDialogue] = useState(null);
   const videoRef = useRef();
   const { progress } = useProgress();
 
   const [showStatic, setShowStatic] = useState(false);
-  
-  // 👇 NEW: State to control global audio (Defaults to false/Audio ON)
   const [isMuted, setIsMuted] = useState(false);
+
+  
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+ 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+
+  const activeCamera = isMobile ? MOBILE_CAMERA : DESKTOP_CAMERA;
+
+
 
   // ==========================================
   // 💡 REAL-TIME UI CONTROLS (Leva)
@@ -157,7 +223,7 @@ export default function App() {
     }
   }, [gameState]);
 
-  // 👇 NEW: Keep the scene sound synced with the mute state
+
   useEffect(() => {
     sceneRevealSound.muted = isMuted;
   }, [isMuted]);
@@ -175,7 +241,7 @@ export default function App() {
       screens: [
         { text: "Hey Team BlueCoo Creative! 👋\nI’m a developer based just across the water in Fife." },
         { text: "I'm currently looking for new work opportunities, or even just some industry advice from a great local agency." },
-        { text: "Instead of sending a standard CV, I built this PS-style scene using React Three Fiber, Blender, and GIMP." },
+        { text: "Instead of sending a standard CV, I built this PSX-style scene using React Three Fiber, Blender, and GIMP." },
         { 
           text: "Feel free to explore my portfolio, and I'd love it if you took a look at my CV!",
           attachmentUrl: "/cvEdited.png", 
@@ -294,15 +360,19 @@ export default function App() {
         <KeyboardControls map={KEY_BINDINGS}>
           <Canvas gl={{ alpha: CANVAS_CONFIG.alpha, antialias: CANVAS_CONFIG.antialias }} dpr={CANVAS_CONFIG.dpr} shadows>
             
-            <PerspectiveCamera 
+          <PerspectiveCamera 
               makeDefault 
-              position={CAMERA_CONFIG.posA} 
-              fov={CAMERA_CONFIG.fov} 
-              near={CAMERA_CONFIG.near} 
-              far={CAMERA_CONFIG.far} 
+              position={activeCamera.posA} 
+              fov={activeCamera.fov}          
+              near={activeCamera.near}        
+              far={activeCamera.far}          
             />
             
-            <IntroCameraPan isPlaying={gameState === 'game'} onComplete={triggerTestDialogue} />
+            <IntroCameraPan 
+              isPlaying={gameState === 'game'} 
+              onComplete={triggerTestDialogue} 
+              config={activeCamera} 
+            />
 
             <Suspense fallback={null}>
               <Environment preset={controls.envPreset} />
