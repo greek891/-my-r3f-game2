@@ -14,5 +14,5 @@ html, body, #root {
 }
 
 .bg-game {
-  background-color: #63a4ff; 
+  background-color: linear-gradient(135deg, rgba(0,0,100,0.9) 0%, rgba(0,0,50,0.9) 100%);
 }
