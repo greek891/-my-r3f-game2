@@ -405,7 +405,7 @@ export default function App() {
    
       <div style={{
         width: '100vw', height: '100dvh',
-        backgroundImage: 'url(/psxBackdrop3.png)', backgroundSize: 'cover', backgroundPosition: 'center',
+        backgroundImage: 'url(/psxBackdrop3.png)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundColor: 'black',
         position: 'absolute', top: 0, left: 0, zIndex: 1
       }}>
         

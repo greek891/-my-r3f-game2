@@ -144,11 +144,11 @@ html, body, #root {
 
 .psx-dialogue-wrapper {
   width: 90%;
-  left: 5%;
-  bottom: 2%;
+  left: 1%;
+  bottom:1%;
   height: auto; 
-  min-height: 140px;
-  padding: 10px 15px;
+  min-height: 120px;
+  padding: 1px 10px;
   font-size: 14px; 
 }
 

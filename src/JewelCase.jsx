@@ -1,10 +1,10 @@
 import React, { useRef } from 'react';
-import './JewelCase.css'; // Make sure your CSS file is correctly linked here
+import './JewelCase.css'
 
 export default function JewelCase({ 
   imageSrc, 
   altText = "PSX Game Case", 
-  tiltIntensity = 15 // Exposing this as a prop makes it easy to tweak per instance!
+  tiltIntensity = 15
 }) {
   const caseRef = useRef(null);
 
