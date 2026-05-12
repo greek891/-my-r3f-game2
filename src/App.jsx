@@ -215,6 +215,35 @@ export default function App() {
   };
 
   useEffect(() => {
+   
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.name = "theme-color";
+      document.head.appendChild(themeMeta);
+    }
+  
+
+    document.body.classList.remove('bg-waiting', 'bg-game');
+    const activeClass = (gameState === 'waiting') ? 'bg-waiting' : 'bg-game';
+    document.body.classList.add(activeClass);
+  
+    let frameId;
+    const syncSystemBar = () => {
+      const currentColor = window.getComputedStyle(document.body).backgroundColor;
+      themeMeta.setAttribute('content', currentColor);
+      frameId = requestAnimationFrame(syncSystemBar);
+    };
+  
+    frameId = requestAnimationFrame(syncSystemBar);
+  
+    return () => {
+      cancelAnimationFrame(frameId);
+      document.body.classList.remove('bg-waiting', 'bg-game');
+    };
+  }, [gameState]);
+
+  useEffect(() => {
     if (gameState === 'playing_intro' && videoRef.current) {
       videoRef.current.play();
     }
@@ -231,6 +260,32 @@ export default function App() {
       sceneRevealSound.play().catch(e => console.log("Audio blocked:", e));
     }
   }, [gameState]);
+
+  useEffect(() => {
+    let themeMeta = document.querySelector('meta[name="theme-color"]');
+    if (!themeMeta) {
+      themeMeta = document.createElement('meta');
+      themeMeta.name = "theme-color";
+      document.head.appendChild(themeMeta);
+    }
+  
+    let frameId;
+
+    const syncSystemBar = () => {
+
+      const currentColor = window.getComputedStyle(document.body).backgroundColor;
+      
+      // Update the meta tag
+      themeMeta.setAttribute('content', currentColor);
+  
+      // Keep syncing as long as the component is mounted
+      frameId = requestAnimationFrame(syncSystemBar);
+    };
+  
+    frameId = requestAnimationFrame(syncSystemBar);
+  
+    return () => cancelAnimationFrame(frameId);
+  }, []); 
 
   const triggerTestDialogue = useCallback(() => {
     setDialogue({
