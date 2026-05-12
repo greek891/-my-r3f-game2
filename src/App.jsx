@@ -312,7 +312,7 @@ export default function App() {
       {gameState === 'waiting' && (
         <div style={{
           position: 'absolute', top: 0, left: 0, width: '100vw', height: '100vh',
-          backgroundColor: 'black', 
+          backgroundColor: 'transparent', 
           display: 'flex', 
           flexDirection: 'column', 
           justifyContent: 'center', 
@@ -357,11 +357,10 @@ export default function App() {
             pointerEvents: gameState === 'game' ? 'none' : 'auto'
           }}
         >
-          {/* 👇 NEW: The browser reads top-to-bottom. 
-               If the screen is under 768px wide, it loads the mobile video. */}
+         
           <source src="/introVideoMobile2.mp4" media="(max-width: 768px)" type="video/mp4" />
           
-          {/* 👇 If the screen is wider than 768px, it skips the first one and loads this desktop video. */}
+          {/* If the screen is wider than 768px, it skips the first one and loads this desktop video. */}
           <source src="/introVideo5.mp4" type="video/mp4" />
           
         </video>
@@ -369,7 +368,7 @@ export default function App() {
 
    
       <div style={{
-        width: '100vw', height: '100vh',
+        width: '100vw', height: '100dvh',
         backgroundImage: 'url(/psxBackdrop3.png)', backgroundSize: 'cover', backgroundPosition: 'center',
         position: 'absolute', top: 0, left: 0, zIndex: 1
       }}>
@@ -381,7 +380,7 @@ export default function App() {
           <PerspectiveCamera 
               makeDefault 
               position={activeCamera.posA} 
-              fov={activeCamera.fov}          
+              fov={activeCamera.fovA}          
               near={activeCamera.near}        
               far={activeCamera.far}          
             />
@@ -404,7 +403,7 @@ export default function App() {
 
             
               {controls.enableFX && (
-                <EffectComposer disableNormalPass>
+                <EffectComposer disableNormalPass alpha>
                   {controls.pixelate && <Pixelation granularity={controls.pixelSize} />}
                   {controls.bloom && <Bloom luminanceThreshold={controls.bloomThreshold} luminanceSmoothing={0.9} intensity={controls.bloomIntensity} mipmapBlur />}
                   {controls.noise && <Noise premultiply blendFunction={BlendFunction.OVERLAY} opacity={controls.noiseOpacity} />}
