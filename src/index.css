@@ -9,5 +9,28 @@ html, body, #root {
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: #00ff0d; 
+  /*background-color: #0600b0;*/
 }
+
+.dynamic-bg-waiting {
+  background: linear-gradient(270deg, #000000, #1a1a2e, #000022, #000000);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+.dynamic-bg-game {
+  background: linear-gradient(270deg, #87CEEB, #63a4ff, #83eaf1, #87CEEB);
+  background-size: 400% 400%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+
+html, body, #root {
+  transition: background 1s ease-in-out;
+  }
