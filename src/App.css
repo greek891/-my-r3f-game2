@@ -4,7 +4,6 @@ html, body, #root {
   width: 100vw; 
   height: 100dvh; 
   overflow: hidden;
-  background-color: #0009b7;
 }
 
 /* App.css */
