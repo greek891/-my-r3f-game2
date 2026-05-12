@@ -172,28 +172,7 @@ export default function App() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  useEffect(() => {
-    const rootElement = document.getElementById('root');
-    
-    // Clear out any old background classes
-    document.documentElement.classList.remove('dynamic-bg-waiting', 'dynamic-bg-game');
-    document.body.classList.remove('dynamic-bg-waiting', 'dynamic-bg-game');
-    if (rootElement) rootElement.classList.remove('dynamic-bg-waiting', 'dynamic-bg-game');
-
-    // Decide which animated background to use
-    const activeClass = gameState === 'waiting' ? 'dynamic-bg-waiting' : 'dynamic-bg-game';
-
-    // Apply the new shifting background
-    document.documentElement.classList.add(activeClass);
-    document.body.classList.add(activeClass);
-    if (rootElement) rootElement.classList.add(activeClass);
-
-  }, [gameState]);
-
-
   const activeCamera = isMobile ? MOBILE_CAMERA : DESKTOP_CAMERA;
-
-
 
   // ==========================================
   // 💡 REAL-TIME UI CONTROLS (Leva)
@@ -286,8 +265,10 @@ export default function App() {
   return (
     <>
       <Leva hidden />
-
   
+      <div className={`dynamic-bg waiting-bg ${gameState === 'waiting' ? 'active' : ''}`} />
+      <div className={`dynamic-bg game-bg ${gameState !== 'waiting' ? 'active' : ''}`} />
+
       <VolumeControl isMuted={isMuted} onToggle={() => setIsMuted(!isMuted)} />
 
       {showStatic && (
