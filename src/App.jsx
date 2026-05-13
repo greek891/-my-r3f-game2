@@ -319,7 +319,7 @@ export default function App() {
 
   return (
     <>
-      <Leva  />
+      <Leva hidden />
   
       <div className={`dynamic-bg waiting-bg ${gameState === 'waiting' ? 'active' : ''}`} />
       <div className={`dynamic-bg game-bg ${gameState !== 'waiting' ? 'active' : ''}`} />
