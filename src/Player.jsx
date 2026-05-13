@@ -58,11 +58,10 @@ export function Player(props) {
       currentAction.current = targetAction;
     }
 
-    // 🚨 DELETED ALL CAMERA HIJACKING CODE HERE 🚨
-    // App.jsx is now strictly the boss of the camera.
+
   });
 
-// 👇 Removed hardcoded position, spread {...props} instead
+
 return (
   <RigidBody 
     ref={playerRef} 

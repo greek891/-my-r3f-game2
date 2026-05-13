@@ -76,7 +76,7 @@ const KEY_BINDINGS = [
   { name: 'jump', keys: ['Space'] },
 ];
 
-const sceneRevealSound = new Audio('/testAudio5.mp3'); 
+const sceneRevealSound = new Audio('/testAudio5.aac'); 
 sceneRevealSound.volume = 1;
 
 // ==========================================
@@ -357,7 +357,7 @@ export default function App() {
         }}>
           
           <JewelCase 
-            imageSrc="/blueCooPS1BoxArt.png" 
+            imageSrc="/blueCooPS1BoxArt.webp" 
             altText="BLUECOO"
             tiltIntensity={20} 
           />
