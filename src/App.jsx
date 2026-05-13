@@ -153,8 +153,8 @@ function IntroCameraPan({ isPlaying, onComplete, config }) {
 }
 
 export default function App() {
-  const [gameState, setGameState] = useState('waiting');
-  //const [gameState, setGameState] = useState('game');
+  //const [gameState, setGameState] = useState('waiting');
+  const [gameState, setGameState] = useState('game');
   const [dialogue, setDialogue] = useState(null);
   const videoRef = useRef();
   const { progress } = useProgress();
@@ -179,7 +179,7 @@ export default function App() {
   // ==========================================
   const controls = useControls({
     '💡 Scene Lighting': folder({
-      ambientIntensity: { value: 0.4, min: 0, max: 5, step: 0.1 },
+      ambientIntensity: { value: 3.2, min: 0, max: 5, step: 0.1 },
       dirIntensity: { value: 0.8, min: 0, max: 10, step: 0.1 },
       dirPosition: { value: [-2, 3, -10] },
       dirColor: { value: '#f6ff94' },
@@ -319,7 +319,7 @@ export default function App() {
 
   return (
     <>
-      <Leva hidden />
+      <Leva  />
   
       <div className={`dynamic-bg waiting-bg ${gameState === 'waiting' ? 'active' : ''}`} />
       <div className={`dynamic-bg game-bg ${gameState !== 'waiting' ? 'active' : ''}`} />
@@ -428,7 +428,7 @@ export default function App() {
             />
 
             <Suspense fallback={null}>
-              <Environment preset={controls.envPreset} />
+            
               <ambientLight intensity={controls.ambientIntensity} />
               <directionalLight castShadow color={controls.dirColor} position={controls.dirPosition} intensity={controls.dirIntensity} shadow-mapSize={[controls.shadowMapSize, controls.shadowMapSize]} />
 
